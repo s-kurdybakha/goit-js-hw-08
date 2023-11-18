@@ -4,19 +4,27 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 import { galleryItems } from './gallery-items';
 // Change code below this line
 
-console.log(galleryItems);
+const renderGalleryItem = (item) => {
+  return (
+    `<li>
+      <a class="gallery__item" href=${item.original}>
+        <img
+          class="gallery__image"
+          src=${item.preview}
+          alt=${item.description}
+        />
+      </a>
+    </li>`
+  );
+};
 
+// render gallery items markup
+const galleryItemsMarkup = galleryItems.map(renderGalleryItem);
+const markup = galleryItemsMarkup.join('');
+
+// put gallery items markup to gallery container
 const gallery = document.querySelector('.gallery');
-
-const markup = galleryItems.map((image) => 
-`<li><a class="gallery__item" href=${image.original}>
-  <img
-      class="gallery__image"
-      src=${image.preview}
-      alt=${image.description}
-    />
-  </a></li>`).join("");
-
 gallery.innerHTML = markup;
 
-new Simplelightbox('.gallery a', {captionsData: "alt",  captionDelay: 250,});
+// activate gallery plugin
+new Simplelightbox('.gallery a', {captionsData: "alt",  captionDelay: 350});
