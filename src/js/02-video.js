@@ -13,5 +13,9 @@ player.on('timeupdate', trottle((data) => {
 window.addEventListener('load', () => {
     const playerTime = localStorage.getItem("videoplayer-current-time")
     // console.log(playerTime);
-    player.setCurrentTime(playerTime);
+    if (playerTime) {
+        player.setCurrentTime(playerTime);
+    } else {
+        localStorage.removeItem("videoplayer-current-time")
+    }
 })
