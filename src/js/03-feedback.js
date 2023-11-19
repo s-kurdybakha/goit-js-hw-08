@@ -35,3 +35,7 @@ window.addEventListener('load', () => {
         formData.message = data.message;
     }
 })
+
+window.addEventListener('submit', () => {
+    localStorage.clear("feedback-form-state")
+})
