@@ -6,32 +6,29 @@ const refs = {
     messageInput: document.querySelector('textarea')
 }
 
-const formData = {
-    email: '',
-    message: '',
-}
 
 refs.feedbackForm.addEventListener('submit', (event) => {
     event.preventDefault();
-    console.log(formData);
+    console.log({email: refs.emailInput.value, message: refs.messageInput.value});
     localStorage.removeItem("feedback-form-state")
     event.currentTarget.reset();
     
 })
 
-refs.emailInput.addEventListener('input', throttle((event) => {
-    // console.log(event.target.value);
-    formData.email = event.target.value;
-    localStorage.setItem("feedback-form-state", JSON.stringify(formData))
-}, 500))
+refs.feedbackForm.addEventListener('input', throttle(onForm, 500));
 
-refs.messageInput.addEventListener('input', throttle((event) => {
-    // console.log(event.target.value);
-    formData.message = event.target.value;
-    localStorage.setItem("feedback-form-state", JSON.stringify(formData))
-}, 500))
+function onForm() {
 
-window.addEventListener('load', () => {
+    const formData = {
+        email: refs.feedbackForm.elements.email.value,
+        message: refs.feedbackForm.elements.message.value,
+    }
+
+    localStorage.setItem("feedback-form-state", JSON.stringify(formData))
+   
+}
+
+function getCurrentValuesOnForm() {
     const localStorageData = localStorage.getItem("feedback-form-state")
 
     if (localStorageData) {
@@ -39,9 +36,7 @@ window.addEventListener('load', () => {
 
         refs.emailInput.value = data.email;
         refs.messageInput.value = data.message;
-
-        formData.email = data.email;
-        formData.message = data.message;
     }
+}
 
-})
+getCurrentValuesOnForm()
